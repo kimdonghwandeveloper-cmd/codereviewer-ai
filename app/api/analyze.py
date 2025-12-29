@@ -1,10 +1,15 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Request
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.services.code_analyzer import PythonAnalyzer, LLMAnalyzer
 from app.core.database import get_db
 from app.services.db_service import save_analysis_result
+from app.core.security import verify_api_key
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+
+
 
 router = APIRouter(prefix="/api", tags=["analyze"])
 
@@ -28,22 +33,24 @@ class CodeAnalysisResponse(BaseModel):
     ai_feedback: Optional[Dict[str, Any]] = None # AI 분석 결과 추가
     saved_id: Optional[int] = None # 저장된 DB ID
 
-@router.post("/analyze", response_model=CodeAnalysisResponse)
+@router.post("/analyze", response_model=CodeAnalysisResponse, dependencies=[Depends(verify_api_key)])
+@Limiter(key_func=get_remote_address).limit("5/minute")
 async def analyze_code(
-    request: CodeAnalysisRequest,
+    request: Request,
+    body: CodeAnalysisRequest,
     db: AsyncSession = Depends(get_db)
 ):
     """
     코드를 분석하고 이슈를 반환하며 결과를 DB에 저장합니다.
     """
-    if request.language != "python":
+    if body.language != "python":
         raise HTTPException(
             status_code=400, 
             detail="Currently only Python is supported"
         )
     
     # Python 분석기 사용 (기본 AST)
-    analyzer = PythonAnalyzer(request.code)
+    analyzer = PythonAnalyzer(body.code)
     analyzer.parse()
     
     basic_issues = [
@@ -59,10 +66,10 @@ async def analyze_code(
 
     # AI 분석 수행
     ai_result = None
-    if request.use_ai:
+    if body.use_ai:
         try:
             llm = LLMAnalyzer()
-            ai_result = await llm.analyze(request.code)
+            ai_result = await llm.analyze(body.code)
             response.ai_feedback = ai_result
         except Exception as e:
             response.ai_feedback = {"error": str(e)}
@@ -71,8 +78,8 @@ async def analyze_code(
     try:
         saved_result = await save_analysis_result(
             db=db,
-            code=request.code,
-            language=request.language,
+            code=body.code,
+            language=body.language,
             basic_stats={
                 "lines": response.lines,
                 "functions": response.functions,
