@@ -9,6 +9,19 @@ __pycache__/
 env/
 venv/
 
+# Security / API Keys
+# .env 파일에 OPENAI_API_KEY, API_SECRET_KEY, DATABASE_URL 등이 포함됨
+# 절대 git에 커밋하지 마세요!
+.env.*
+!.env.example
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+test_output.log
+sec_test.log
+
 # IDEs
 .vscode/
 .idea/
@@ -16,3 +29,4 @@ venv/
 # Misc
 *.log
 .DS_Store
+Thumbs.db
