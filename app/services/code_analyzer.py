@@ -123,6 +123,7 @@ class LLMAnalyzer:
             return json.loads(content)
             
         except Exception as e:
+            print(f"❌ OpenAI Analysis Failed: {str(e)}")  # Error Logging
             return {
                 "summary": "Analysis failed",
                 "issues": [{
