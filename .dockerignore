@@ -1,0 +1,26 @@
+# Git
+.git
+.gitignore
+
+# Python / Virtualenv
+__pycache__
+*.pyc
+.venv
+env
+venv
+
+# Environment
+.env
+.env.*
+
+# Testing
+.pytest_cache
+.coverage
+htmlcov
+test_output.log
+sec_test.log
+
+# Frontend
+frontend/node_modules
+frontend/dist
+frontend/.env
