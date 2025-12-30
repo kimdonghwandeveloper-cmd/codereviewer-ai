@@ -1,12 +1,15 @@
 import React from 'react';
 import { History, Plus, MessageSquare } from 'lucide-react';
 
-export function Sidebar() {
+export function Sidebar({ onNewAnalysis }) {
     return (
         <div className="w-[260px] flex-shrink-0 bg-[var(--bg-secondary)] border-r border-[var(--border-color)] flex flex-col">
             {/* Header / New Chat */}
             <div className="p-3">
-                <button className="w-full flex items-center gap-3 px-3 py-3 rounded-md border border-[var(--border-color)] hover:bg-[var(--bg-tertiary)] transition-colors text-sm text-left text-[var(--text-primary)]">
+                <button
+                    onClick={onNewAnalysis}
+                    className="w-full flex items-center gap-3 px-3 py-3 rounded-md border border-[var(--border-color)] hover:bg-[var(--bg-tertiary)] transition-colors text-sm text-left text-[var(--text-primary)]"
+                >
                     <Plus size={16} />
                     <span>New Analysis</span>
                 </button>
