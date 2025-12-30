@@ -3,19 +3,28 @@
 @tailwind utilities;
 
 :root {
-  /* Premium Dark Theme Palette */
-  --bg-primary: #0f1115;
-  --bg-secondary: #1a1d23;
-  --bg-tertiary: #252830;
+  /* Gemini Premium Black Theme */
+  --bg-primary: #000000;
+  /* Deep Black */
+  --bg-secondary: #0e0e0f;
+  /* Slightly lighter for panels */
+  --bg-tertiary: #1e1e20;
+  /* Hover states & accents */
 
-  --text-primary: #f0f4f8;
-  --text-secondary: #9ba1a6;
-  --text-accent: #64ffda;
-  /* Neon Cyan */
+  --primary-color: #4da6ff;
+  /* Gemini Blue */
+  --secondary-color: #d96570;
+  /* Gemini Red/Pink accent */
+  --accent-color: #9f86ff;
+  /* Purple accent */
 
-  --border-color: #2d3139;
-  --primary-color: #64ffda;
-  --primary-hover: #4cdbb6;
+  --text-primary: #ffffff;
+  --text-secondary: #9aa0a6;
+  --text-accent: #e3e3e3;
+
+  --border-color: #333333;
+  --glass-bg: rgba(20, 20, 23, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
 
   --danger-color: #ff5252;
   --warning-color: #ffd740;
@@ -25,7 +34,6 @@
   --font-mono: 'Fira Code', 'JetBrains Mono', monospace;
 
   /* Glassmorphism */
-  --glass-bg: rgba(26, 29, 35, 0.7);
   --glass-border: 1px solid rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
